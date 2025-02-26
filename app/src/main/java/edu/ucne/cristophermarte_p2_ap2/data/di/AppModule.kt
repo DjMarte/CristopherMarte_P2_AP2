@@ -10,6 +10,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import edu.ucne.cristophermarte_p2_ap2.data.local.database.AdministracionDb
+import edu.ucne.cristophermarte_p2_ap2.data.remote.DepositoManagerApi
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
@@ -17,7 +18,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 object AppModule {
-    const val Base_URL = "aqui va la url"
+    const val Base_URL = "https://sagapi-dev.azurewebsites.net/"
 
     @Provides
     @Singleton
@@ -26,17 +27,15 @@ object AppModule {
             .add(KotlinJsonAdapterFactory())
             .build()
 
-    /*@Provides
+    @Provides
     @Singleton
-    fun provideEntidadApi(moshi: Moshi): EntidadManagerApi {
+    fun provideEntidadApi(moshi: Moshi): DepositoManagerApi {
         return Retrofit.Builder()
             .baseUrl(Base_URL)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
-            .create(EntidadManagerApi::class.java)
+            .create(DepositoManagerApi::class.java)
     }
-
-     */
 
     @Provides
     @Singleton
