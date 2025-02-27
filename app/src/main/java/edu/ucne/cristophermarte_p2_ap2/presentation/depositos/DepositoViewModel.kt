@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,9 +39,9 @@ class DepositoViewModel @Inject constructor(
         viewModelScope.launch {
             depositoRepository.update(
                 _uiState.value.depositoId, DepositoDto(
-                    depositoId = _uiState.value.depositoId,
+                    idDeposito = _uiState.value.depositoId,
                     fecha = _uiState.value.fecha,
-                    cuentaId = _uiState.value.cuentaId,
+                    idCuenta = _uiState.value.cuentaId,
                     concepto = _uiState.value.concepto,
                     monto = _uiState.value.monto
                 )
@@ -54,12 +53,12 @@ class DepositoViewModel @Inject constructor(
         viewModelScope.launch {
             if(depositoId > 0){
                 val deposito = depositoRepository.find(depositoId)
-                if(deposito.depositoId != 0){
+                if(deposito.idDeposito != 0){
                     _uiState.update {
                         it.copy(
-                            depositoId = deposito.depositoId,
+                            depositoId = deposito.idDeposito,
                             fecha = deposito.fecha,
-                            cuentaId = deposito.cuentaId,
+                            cuentaId = deposito.idCuenta,
                             concepto = deposito.concepto,
                             monto = deposito.monto
                         )
@@ -96,7 +95,7 @@ class DepositoViewModel @Inject constructor(
         }
     }
 
-    fun onFechaChange(fecha: Date) {
+    fun onFechaChange(fecha: String) {
         _uiState.update {
             it.copy(
                 fecha = fecha,
@@ -146,9 +145,9 @@ class DepositoViewModel @Inject constructor(
     }
 }
 fun DepositoUiState.toEntity() = DepositoDto(
-    depositoId = depositoId,
+    idDeposito = depositoId,
     fecha = fecha,
-    cuentaId = cuentaId,
+    idCuenta = cuentaId,
     concepto = concepto,
     monto = monto
 )
