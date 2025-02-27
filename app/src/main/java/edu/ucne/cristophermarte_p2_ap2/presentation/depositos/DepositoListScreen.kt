@@ -10,10 +10,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,6 +24,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,7 +38,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import edu.ucne.cristophermarte_p2_ap2.data.remote.dto.DepositoDto
-import edu.ucne.cristophermarte_p2_ap2.presentation.navigation.Screen
 
 @Composable
 fun DepositoListScreen(
@@ -46,7 +49,8 @@ fun DepositoListScreen(
     DepositoBodyListScreen(
         uiState = uiState,
         onAddDeposito = onAddDeposito,
-        goToDepositoScreen = goToDepositoScreen
+        goToDepositoScreen = goToDepositoScreen,
+        viewModel
     )
 }
 
@@ -55,7 +59,8 @@ fun DepositoListScreen(
 fun DepositoBodyListScreen(
     uiState: DepositoUiState,
     onAddDeposito: () -> Unit,
-    goToDepositoScreen: (Int) -> Unit
+    goToDepositoScreen: (Int) -> Unit,
+    viewModel: DepositoViewModel
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -83,6 +88,23 @@ fun DepositoBodyListScreen(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     Spacer(modifier = Modifier.height(32.dp))
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        OutlinedButton(
+                            onClick = { viewModel.getAllDepositos() }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Refresh,
+                                contentDescription = "Actualizar"
+                            )
+                            Spacer(Modifier.size(ButtonDefaults.IconSize))
+                            Text(text = "Actualizar")
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
                     TableHeader()
                     uiState.errorMessage?.let { error ->
                         Text(
@@ -170,20 +192,20 @@ private fun DepositoRow(
     Row(
         modifier = Modifier
             .padding(15.dp)
-            .clickable { goToDepositoScreen(it.depositoId) },
+            .clickable { goToDepositoScreen(it.idDeposito) },
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             modifier = Modifier.weight(2f),
-            text = it.depositoId.toString(),
+            text = it.idDeposito.toString(),
             textAlign = TextAlign.Center,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
         Text(
             modifier = Modifier.weight(2f),
-            text = it.fecha.toString(),
+            text = it.fecha,
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
             maxLines = 1,
@@ -191,7 +213,7 @@ private fun DepositoRow(
         )
         Text(
             modifier = Modifier.weight(2f),
-            text = it.cuentaId.toString(),
+            text = it.idCuenta.toString(),
             textAlign = TextAlign.Center,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
