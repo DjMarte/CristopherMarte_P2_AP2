@@ -11,4 +11,10 @@ class RemoteDataSource @Inject constructor(
 
     suspend fun saveDeposito(deposito: DepositoDto): DepositoDto =
         depositoManagerApi.saveDeposito(deposito)
+
+    suspend fun getDepositoById(id: Int) =
+        depositoManagerApi.getDepositoById(id)
+
+    suspend fun updateDeposito(id: Int, deposito: DepositoDto) =
+        depositoManagerApi.updateDeposito(id, deposito)
 }
