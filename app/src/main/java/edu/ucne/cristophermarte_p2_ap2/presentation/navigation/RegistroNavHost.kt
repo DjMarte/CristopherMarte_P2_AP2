@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import edu.ucne.cristophermarte_p2_ap2.presentation.depositos.DepositoListScreen
 
 @Composable
 fun RegistroNavHost(
@@ -12,20 +13,18 @@ fun RegistroNavHost(
 ){
     NavHost(
         navController = navHostController,
-        startDestination = Screen.EntidadListScreen
+        startDestination = Screen.DepositoList
     ) {
-        composable<Screen.EntidadListScreen> {
-            /*EntidadListScreen(
-                onAddEntidad = {navHostController.navigate(Screen.Entidad(0))},
-                goToEntidadScreen = { entidadId ->
-                    navHostController.navigate(Screen.Entidad(entidadId = entidadId))
+        composable<Screen.DepositoList> {
+            DepositoListScreen(
+                onAddDeposito = { navHostController.navigate(Screen.Deposito(0)) },
+                goToDepositoScreen = { depositoId ->
+                    navHostController.navigate(Screen.Deposito(depositoId))
                 }
             )
-
-             */
         }
-        composable<Screen.Entidad> {
-            val entidadId = it.toRoute<Screen.Entidad>().entidadId
+        composable<Screen.Deposito> {
+            val depositoId = it.toRoute<Screen.Deposito>().depositoId
             /*EntidadScreen(
                 entidadId = entidadId,
                 goBackToList = {navHostController.navigateUp()}
