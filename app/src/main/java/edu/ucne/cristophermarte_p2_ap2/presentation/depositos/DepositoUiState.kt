@@ -6,6 +6,7 @@ import java.util.Date
 data class DepositoUiState(
     val depositoId: Int = 0,
     val fecha: Date = Date(),
+    val fechaSeleccionada: Boolean = false,
     val cuentaId: Int = 0,
     val concepto: String = "",
     val monto: Double = 0.0,
