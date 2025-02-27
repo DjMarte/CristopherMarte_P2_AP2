@@ -20,17 +20,17 @@ interface DepositoManagerApi {
     suspend fun saveDeposito(@Body deposito: DepositoDto?): DepositoDto
 
     @Headers("X-API-Key:test")
-    @GET("/api/Depositos/{depositoId}")
+    @GET("/api/Depositos/{idDeposito}")
     suspend fun getDepositoById(@Path("depositoId") depositoId: Int): DepositoDto
 
     @Headers("X-API-Key:test")
-    @PUT("/api/Depositos/{depositoId}")
+    @PUT("/api/Depositos/{idDeposito}")
     suspend fun updateDeposito(
         @Path("depositoId") depositoId: Int,
         @Body deposito: DepositoDto
     ): Response<DepositoDto>
 
     @Headers("X-API-Key:test")
-    @DELETE("/api/Depositos/{depositoId}")
+    @DELETE("/api/Depositos/{idDeposito}")
     suspend fun deleteDeposito(@Path("depositoId") depositoId: Int): Response<Unit>
 }
