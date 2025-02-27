@@ -29,4 +29,10 @@ class DepositoRepository @Inject constructor(
 
     suspend fun save(depositoDto: DepositoDto): DepositoDto =
         remoteDataSource.saveDeposito(depositoDto)
+
+    suspend fun find(id: Int): DepositoDto =
+        remoteDataSource.getDepositoById(id)
+
+    suspend fun update(id: Int, depositoDto: DepositoDto) =
+        remoteDataSource.updateDeposito(id, depositoDto)
 }
