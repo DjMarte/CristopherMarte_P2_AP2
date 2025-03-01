@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -51,20 +53,25 @@ class DepositoViewModel @Inject constructor(
 
     fun find(depositoId: Int){
         viewModelScope.launch {
-            if(depositoId > 0){
-                val deposito = depositoRepository.find(depositoId)
-                if(deposito.idDeposito != 0){
-                    _uiState.update {
-                        it.copy(
-                            depositoId = deposito.idDeposito,
-                            fecha = deposito.fecha,
-                            cuentaId = deposito.idCuenta,
-                            concepto = deposito.concepto,
-                            monto = deposito.monto
-                        )
-                    }
+            val deposito = depositoRepository.find(depositoId)
+
+            if (deposito != null) {
+                _uiState.update {
+                    it.copy(
+                        depositoId = deposito.idDeposito,
+                        fecha = deposito.fecha,
+                        concepto = deposito.concepto,
+                        monto = deposito.monto,
+                        cuentaId = deposito.idCuenta
+                    )
                 }
             }
+        }
+    }
+
+    fun delete(depositoId: Int){
+        viewModelScope.launch {
+            depositoRepository.delete(depositoId)
         }
     }
 
@@ -96,10 +103,15 @@ class DepositoViewModel @Inject constructor(
     }
 
     fun onFechaChange(fecha: String) {
+        val formatoEntrada = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val formatoSalida = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+        val date = formatoEntrada.parse(fecha)
+        val formattedDate = formatoSalida.format(date!!)
         _uiState.update {
             it.copy(
-                fecha = fecha,
-                fechaSeleccionada = true
+                fecha = formattedDate,
+                errorMessage = if (fecha.isBlank()) "Debes rellenar el campo Fecha" else null
             )
         }
     }
