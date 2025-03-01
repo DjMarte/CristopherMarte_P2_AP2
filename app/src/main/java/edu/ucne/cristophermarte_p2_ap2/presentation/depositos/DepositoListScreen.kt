@@ -37,7 +37,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import edu.ucne.cristophermarte_p2_ap2.data.remote.dto.DepositoDto
+import edu.ucne.cristophermarte_p2_ap2.data.local.entity.DepositoEntity
+
 
 @Composable
 fun DepositoListScreen(
@@ -186,7 +187,7 @@ private fun TableHeader() {
 
 @Composable
 private fun DepositoRow(
-    it: DepositoDto,
+    it: DepositoEntity,
     goToDepositoScreen: (Int) -> Unit
 ) {
     Row(
