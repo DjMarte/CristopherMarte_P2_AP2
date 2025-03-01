@@ -47,5 +47,5 @@ object AppModule {
     }
 
     @Provides
-    fun provideEntidadDao(administracionDb: AdministracionDb) = administracionDb.entidadDao()
+    fun provideDepositoDao(administracionDb: AdministracionDb) = administracionDb.depositoDao()
 }
